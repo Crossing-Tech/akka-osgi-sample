@@ -20,3 +20,7 @@ Then try to restart some bundles, to test the stability of the bundles:
 ``list`` to get the list of the bundles
 ``restart #bundle_number`` to restart the bundle using its ID
 ``exit`` or CTRL-D to exit the Karaf console
+
+Unfortunately, you need to modify the core bundle when deploying on a second machine, to set it's akka.remote.netty.hostname in the application.conf.
+
+The configuration is set to start the fist node on one machine and to start other nodes on vm running on the same machine for tests (with vmware, ip of the host : 192.168.229.1 and first vm ip would be 192.168.229.128, but it may differ according to your configuration.
