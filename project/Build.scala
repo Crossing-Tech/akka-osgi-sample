@@ -33,7 +33,7 @@ object OsgiSampleBuild extends Build {
     scalaVersion := "2.10.0",
     resolvers ++= Seq("oss-sonatype-releases" at "https://oss.sonatype.org/content/repositories/releases",
       "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"),
-    version := "2.2.0-SNAPSHOT"
+    version := "2.1.0-SNAPSHOT"
   )
 
 
@@ -121,7 +121,7 @@ object OsgiSampleBuild extends Build {
 
   def defaultImports = Seq("!sun.misc", akkaImport(), configImport(), scalaImport())
 
-  def akkaImport(packageName: String = "akka.*") = "%s;version=\"[2.2,2.3)\"".format(packageName)
+  def akkaImport(packageName: String = "akka.*") = "%s;version=\"[2.1,2.2)\"".format(packageName)
 
   def configImport(packageName: String = "com.typesafe.config.*") = "%s;version=\"[0.4.1,1.1.0)\"".format(packageName)
 
