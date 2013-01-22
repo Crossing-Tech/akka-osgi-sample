@@ -37,40 +37,22 @@ object OsgiSampleBuild extends Build {
   )
 
 
-  val ActorReferenceCopyTask = TaskKey[Int]("osgi-run", "Run Osgi framework")
+  val ActorReferenceCopyTask = TaskKey[Int]("osgi-prepare", "Prepare an Osgi framework and required bundles")
 
-  val ActorReferenceCopyAction = ActorReferenceCopyTask := {
-    import sbt.Process._
-
-    List("sh", "-c", "bash ./karaf.sh") !;
-    val bundleDirectory = "apache-karaf-2.3.0/deploy/"
-    //for pax val bundleDirectory = "bundles"
-    projects.foreach(project => List("sh", "-c", "cp %s/target/scala-2.10/%s*.jar %s".format(project.base, project.id, bundleDirectory)) !);
-
-    val bundles = List("http://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.10/2.1.0/akka-actor_2.10-2.1.0.jar",
-      "http://repo1.maven.org/maven2/com/typesafe/akka/akka-osgi_2.10/2.1.0/akka-osgi_2.10-2.1.0.jar",
-      "http://repo1.maven.org/maven2/com/typesafe/akka/akka-remote_2.10/2.1.0/akka-remote_2.10-2.1.0.jar",
-      "http://repo1.maven.org/maven2/io/netty/netty/3.5.7.Final/netty-3.5.7.Final.jar",
-      "http://repo1.maven.org/maven2/com/typesafe/akka/akka-cluster-experimental_2.10/2.1.0/akka-cluster-experimental_2.10-2.1.0.jar",
-      "http://repo1.maven.org/maven2/com/typesafe/config/1.0.0/config-1.0.0.jar",
-      "http://repo1.maven.org/maven2/org/scala-lang/scala-library/2.10.0/scala-library-2.10.0.jar"
-    )
-
-    bundles.foreach(bundle => {
-      val bundleName = bundle.split("/").last
-      if (!(new File(bundleDirectory + bundleName).exists())) {
-        // for pax-runner List("sh", "-c", "wget -q " + bundle + " -O bundles/" + bundleName) !
-        List("sh", "-c", "wget -q " + bundle + " -O " + bundleDirectory + bundleName) !
-      }
+  val ActorReferenceCopyAction = ActorReferenceCopyTask:={
+    new File("bundles").mkdir()
+    projects.map(_.base).filter(p => (new File(p+"/target/scala-2.10")).exists).foreach(p =>  {
+      List("sh", "-c", "cp "+p+"/target/scala-2.10/*.jar bundles") !;
     })
-    //for pax-runner List("sh", "-c", "bash ./pax.sh") !;
-    List("sh", "-c", "echo 'please run apache-karaf-2.3.0/bin/karaf after having replace, in " + bundleDirectory + ", legacy bundles by the bundles you wand to test'") !;
+    List("sh", "-c", "cd core; bash ../karaf.sh") !;
   }
 
   lazy val root = Project(id = "osgi-sample",
     base = file("."),
     settings = Project.defaultSettings ++ Seq(
-      ActorReferenceCopyAction,
+     ActorReferenceCopyAction,
+     cleanFiles <+= baseDirectory { base => base / "bundles" },
+     cleanFiles <+= baseDirectory { base => base / "apache-karaf-2.3.0" },
       libraryDependencies ++= Seq()
     )
   ) aggregate(api, command, core, uncommons, protobuf)
@@ -99,14 +81,14 @@ object OsgiSampleBuild extends Build {
 
   lazy val uncommons = Project(id = "uncommons",
     base = file("./uncommons"),
-    settings = Project.defaultSettings ++ exports(Seq("org.uncommons.maths.random"), privates = Seq(" org.uncommons.maths.binary", "org.uncommons.maths", "org.uncommons.maths.number")) ++ Seq(
+    settings = Project.defaultSettings ++ exports(Seq("org.uncommons.maths.random"), privates = Seq("org.uncommons.maths.binary", "org.uncommons.maths", "org.uncommons.maths.number")) ++ Seq(
       libraryDependencies ++= Dependencies.uncommons,
       version := "1.2.2"
     )
   )
 
   lazy val protobuf = Project(id = "protobuf",
-    base = file("./uncommons"),
+    base = file("./protobuf"),
     settings = Project.defaultSettings ++ exports(Seq("com.google.protobuf")) ++ Seq(
       libraryDependencies ++= Seq(Dependencies.protobuf),
       version := "2.4.1"
@@ -118,6 +100,14 @@ object OsgiSampleBuild extends Build {
     OsgiKeys.privatePackage := privates,
     OsgiKeys.exportPackage := packages
   )
+
+   def copyFile(source: String, sink: String){
+    val src = new java.io.File(source)
+    val dest = new java.io.File(sink)
+    new java.io.FileOutputStream(dest) getChannel() transferFrom(
+      new java.io.FileInputStream(src) getChannel, 0, Long.MaxValue )
+  }
+
 
   def defaultImports = Seq("!sun.misc", akkaImport(), configImport(), scalaImport())
 
@@ -145,7 +135,7 @@ object Dependencies {
 
   val uncommons_math = "org.uncommons.maths" % "uncommons-maths" % "1.2.2"
   val jcommon = "jfree" % "jcommon" % "1.0.16"
-  val jfreechart = "jfree" % "jfreechart" % "1.0.9"
+  val jfreechart = "jfree" % "jfreechart" % "1.0.13"
   val uncommons = Seq(uncommons_math, jcommon, jfreechart)
 
   val protobuf = "com.google.protobuf" % "protobuf-java" % "2.4.1"
