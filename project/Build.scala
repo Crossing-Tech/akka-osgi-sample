@@ -111,7 +111,7 @@ object OsgiSampleBuild extends Build {
 
   def defaultImports = Seq("!sun.misc", akkaImport(), configImport(), scalaImport())
 
-  def akkaImport(packageName: String = "akka.*") = "%s;version=\"[2.1,2.2)\"".format(packageName)
+  def akkaImport(packageName: String = "akka.*") = "%s;version=\"[2.1,2.3)\"".format(packageName)
 
   def configImport(packageName: String = "com.typesafe.config.*") = "%s;version=\"[0.4.1,1.1.0)\"".format(packageName)
 
@@ -128,9 +128,10 @@ object Dependencies {
   val akka_cluster = "com.typesafe.akka" % "akka-cluster-experimental_2.10" % "2.1.0"
   val config = "com.typesafe" % "config" % "1.0.0"
 
-  val core = Seq(akka_actor, akka_osgi, akka_remote, akka_cluster, config)
   val osgiCore = "org.osgi" % "org.osgi.core" % "4.2.0"
-  val command = Seq(osgiCore)
+  val osgiCompendium = "org.osgi" % "org.osgi.compendium" % "4.2.0"
+  val core = Seq(akka_actor, akka_osgi, akka_remote, akka_cluster, config, osgiCompendium)
+  val command = Seq(osgiCore, osgiCompendium)
 
 
   val uncommons_math = "org.uncommons.maths" % "uncommons-maths" % "1.2.2"

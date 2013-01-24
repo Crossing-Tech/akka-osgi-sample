@@ -16,23 +16,26 @@ See the License for the specific language governing permissions and
 package akka.osgi.sample.activation
 
 import akka.osgi.ActorSystemActivator
-import akka.osgi.sample.internal.{Table, Chopstick}
 import org.osgi.framework.{ServiceRegistration, BundleContext}
 import akka.actor.{Props, ActorSystem}
 import java.util.{Dictionary, Properties}
 import akka.osgi.sample.internal.Table
 import akka.osgi.sample.service.DinningHakkersServiceImpl
 import akka.osgi.sample.api.DinningHakkersService
+import akka.event.{LogSource, Logging}
 
 class Activator extends ActorSystemActivator {
+
+  import Activator._
 
   var service: Option[ServiceRegistration] = None
 
   def configure(context: BundleContext, system: ActorSystem) {
-    println("Core bundle configured")
+    val log = Logging(system, this)
+    log.info("Core bundle configured")
     system.actorOf(Props[Table], "table")
     registerHakkersService(context, system)
-    println("Hakker serice registred")
+    log.info("Hakker service registred")
   }
 
   def registerHakkersService(context: BundleContext, system: ActorSystem) {
@@ -56,4 +59,11 @@ class Activator extends ActorSystemActivator {
   }
 
   override def getActorSystemName(context: BundleContext): String = "akka-osgi-sample"
+}
+
+object Activator {
+  implicit val logSource: LogSource[AnyRef] = new LogSource[AnyRef] {
+    def genString(o: AnyRef): String = o.getClass.getName
+    override def getClazz(o: AnyRef): Class[_] = o.getClass
+  }
 }
