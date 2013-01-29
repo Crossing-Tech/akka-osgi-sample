@@ -28,7 +28,7 @@ class Activator extends ActorSystemActivator {
 
   import Activator._
 
-  var service: Option[ServiceRegistration] = None
+  var service: Option[ServiceRegistration[_]] = None
 
   def configure(context: BundleContext, system: ActorSystem) {
     val log = Logging(system, this)
