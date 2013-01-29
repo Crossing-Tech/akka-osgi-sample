@@ -37,11 +37,13 @@
                 <artifactId>org.osgi.compendium</artifactId>
                 <version>${osgi.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>api</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.typesafe.akka</groupId>
                 <artifactId>akka-actor_${scala.dep.version}</artifactId>
