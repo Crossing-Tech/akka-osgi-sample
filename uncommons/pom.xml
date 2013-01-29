@@ -9,6 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <!--
+    Note that 1.2.3 of uncommons-maths has OSGi meta-data, see https://www.assembla.com/spaces/akka/tickets/2990
+    Once that is available, this module can be removed.
+    -->
+
     <artifactId>uncommons</artifactId>
     <name>org.uncommons.maths.random</name>
     <version>1.2.2</version>
