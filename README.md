@@ -9,6 +9,9 @@ This project provides three Osgi Bundles
  - core  implementing the whole logic: clustered connections, Hakkers, ChopSticks. It finally provide an ActorRef of one created Hakker
  - command use a service to get a Hakker (ActorRef) with its position around the table
 
+An integration testing module is provided to verify OSGi functionality:
+ - integration-test
+
 Two modules that provision the project into the Karaf OSGi container for experimentation and integration testing:
  - assembly-features  defines the karaf "feature" that allows Karaf to provision the bundles
  - assembly-dist  creates a distribution tar.gz and zip file containing the configured Karaf runtime
