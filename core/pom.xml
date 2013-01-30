@@ -63,7 +63,7 @@
             <artifactId>akka-cluster-experimental_${scala.dep.version}</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.hyperic</groupId>
+            <groupId>org.fusesource</groupId>
             <artifactId>sigar</artifactId>
             <version>1.6.4</version>
         </dependency>
