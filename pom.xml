@@ -9,18 +9,24 @@
 
     <properties>
         <akka.version>2.1.0</akka.version>
+        <karaf.version>2.3.0</karaf.version>
+        <netty.version>3.5.8.Final</netty.version>
         <osgi.version>4.3.0</osgi.version>
         <paxexam.version>2.6.0</paxexam.version>
+        <protobuf.version>2.4.1</protobuf.version>
         <scala.version>2.10.0</scala.version>
         <scala.dep.version>2.10</scala.dep.version>
+        <typesafe.config.version>1.0.0</typesafe.config.version>
     </properties>
 
     <modules>
         <module>api</module>
         <module>command</module>
         <module>uncommons</module>
-        <module>protobuf</module>
         <module>core</module>
+
+        <module>assembly-features</module>
+        <module>assembly-dist</module>
     </modules>
     <packaging>pom</packaging>
     <name>com.typesafe.akka.akka-osgi.sample</name>
@@ -41,6 +47,16 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>command</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -67,7 +83,24 @@
             <dependency>
                 <groupId>com.typesafe</groupId>
                 <artifactId>config</artifactId>
-                <version>1.0.0</version>
+                <version>${typesafe.config.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+
+            <dependency>
+              <groupId>org.apache.karaf</groupId>
+              <artifactId>apache-karaf</artifactId>
+              <version>${karaf.version}</version>
+              <type>tar.gz</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -82,7 +115,7 @@
         <dependency>
             <groupId>org.apache.karaf.tooling.exam</groupId>
             <artifactId>org.apache.karaf.tooling.exam.container</artifactId>
-            <version>2.3.0</version>
+            <version>${karaf.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
