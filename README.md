@@ -1,6 +1,6 @@
-akka-osgi-sample   :  Clustered DinningHakker
+akka-osgi-sample   :  Clustered DiningHakker
 ================
-This project may be used to test akka bundles in OSGi Frameworks. The build tool (sbt for the moment) provide scripts to run in an OSGi Framework (Karaf only for the moment) a version of the DinningHakkers that runs on several nodes unsing the akka-cluster module.
+This project may be used to test akka bundles in OSGi Frameworks. The build tool (sbt for the moment) provide scripts to run in an OSGi Framework (Karaf only for the moment) a version of the DiningHakkers that runs on several nodes unsing the akka-cluster module.
 
 ## Bundle overview
 

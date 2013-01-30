@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 package akka.osgi.sample.command
 
 import org.osgi.framework.{ServiceEvent, BundleContext, BundleActivator}
-import akka.osgi.sample.api.DinningHakkersService
+import akka.osgi.sample.api.DiningHakkersService
 import akka.actor.{ActorRef, PoisonPill}
 import org.osgi.util.tracker.ServiceTracker
 
@@ -25,14 +25,14 @@ class Activator extends BundleActivator {
   var hakker : Option[ActorRef] = None
 
   def start(context: BundleContext) {
-    val logServiceTracker = new ServiceTracker(context, classOf[DinningHakkersService].getName, null)
+    val logServiceTracker = new ServiceTracker(context, classOf[DiningHakkersService].getName, null)
     logServiceTracker.open()
-   val service = Option(logServiceTracker.getService.asInstanceOf[DinningHakkersService])
+   val service = Option(logServiceTracker.getService.asInstanceOf[DiningHakkersService])
     service.foreach(startHakker(_,  context.getBundle.getSymbolicName + ":" + context.getBundle.getBundleId))
  }
 
-  def startHakker(service: DinningHakkersService, name: String){
-    hakker = Some(service.getHacker(name, (math.floor(math.random * 5)).toInt))
+  def startHakker(service: DiningHakkersService, name: String){
+    hakker = Some(service.getHakker(name, (math.floor(math.random * 5)).toInt))
   }
 
   def stop(context: BundleContext) {

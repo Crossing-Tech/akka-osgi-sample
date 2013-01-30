@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>command</artifactId>
-    <name>Dinning Hakker :: Service consumer</name>
+    <name>Dining Hakker :: Service consumer</name>
     <packaging>bundle</packaging>
 
     <dependencies>

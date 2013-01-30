@@ -20,8 +20,8 @@ import org.osgi.framework.{ServiceRegistration, BundleContext}
 import akka.actor.{Props, ActorSystem}
 import java.util.{Dictionary, Properties}
 import akka.osgi.sample.internal.Table
-import akka.osgi.sample.service.DinningHakkersServiceImpl
-import akka.osgi.sample.api.DinningHakkersService
+import akka.osgi.sample.service.DiningHakkersServiceImpl
+import akka.osgi.sample.api.DiningHakkersService
 import akka.event.{LogSource, Logging}
 
 class Activator extends ActorSystemActivator {
@@ -40,10 +40,10 @@ class Activator extends ActorSystemActivator {
 
   def registerHakkersService(context: BundleContext, system: ActorSystem) {
 
-    val hakkersService = new DinningHakkersServiceImpl(system)
+    val hakkersService = new DiningHakkersServiceImpl(system)
 
     service.foreach(_.unregister()) //Cleanup   //TODO required??
-    service = Some(context.registerService(classOf[DinningHakkersService].getName, hakkersService, (new Properties()).asInstanceOf[Dictionary[String, Any]]))
+    service = Some(context.registerService(classOf[DiningHakkersService].getName, hakkersService, (new Properties()).asInstanceOf[Dictionary[String, Any]]))
 
   }
 
