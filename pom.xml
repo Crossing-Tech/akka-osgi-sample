@@ -10,12 +10,15 @@
     <properties>
         <akka.version>2.1.0</akka.version>
         <karaf.version>2.3.0</karaf.version>
+        <karaf.tooling.exam.version>${karaf.version}</karaf.tooling.exam.version>
         <netty.version>3.5.8.Final</netty.version>
         <osgi.version>4.3.0</osgi.version>
         <paxexam.version>2.6.0</paxexam.version>
+        <paxswissbox.version>1.6.0</paxswissbox.version>
         <protobuf.version>2.4.1</protobuf.version>
         <scala.version>2.10.0</scala.version>
         <scala.dep.version>2.10</scala.dep.version>
+        <scalatest.version>1.9.1</scalatest.version>
         <typesafe.config.version>1.0.0</typesafe.config.version>
     </properties>
 
@@ -27,6 +30,7 @@
 
         <module>assembly-features</module>
         <module>assembly-dist</module>
+        <module>integration-test</module>
     </modules>
     <packaging>pom</packaging>
     <name>com.typesafe.akka.akka-osgi.sample</name>
@@ -97,10 +101,41 @@
             </dependency>
 
             <dependency>
-              <groupId>org.apache.karaf</groupId>
-              <artifactId>apache-karaf</artifactId>
-              <version>${karaf.version}</version>
-              <type>tar.gz</type>
+                <groupId>org.apache.karaf.tooling.exam</groupId>
+                <artifactId>org.apache.karaf.tooling.exam.container</artifactId>
+                <version>${karaf.tooling.exam.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.ops4j.pax.exam</groupId>
+                <artifactId>pax-exam-junit4</artifactId>
+                <version>${paxexam.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-testkit_${scala.dep.version}</artifactId>
+                <version>${akka.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest_${scala.dep.version}</artifactId>
+                <version>${scalatest.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.9</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.karaf</groupId>
+                <artifactId>apache-karaf</artifactId>
+                <version>${karaf.version}</version>
+                <type>tar.gz</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -110,19 +145,6 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-compiler</artifactId>
             <version>${scala.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.karaf.tooling.exam</groupId>
-            <artifactId>org.apache.karaf.tooling.exam.container</artifactId>
-            <version>${karaf.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam-junit4</artifactId>
-            <version>${paxexam.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <repositories>
@@ -160,6 +182,13 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
                         </goals>
                     </execution>
                 </executions>
