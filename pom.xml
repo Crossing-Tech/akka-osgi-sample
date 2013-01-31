@@ -8,10 +8,10 @@
     <version>2.2.0-SNAPSHOT</version>
 
     <properties>
-        <akka.version>2.1.0</akka.version>
+        <akka.version>2.2-SNAPSHOT</akka.version>
         <karaf.version>2.3.0</karaf.version>
         <karaf.tooling.exam.version>${karaf.version}</karaf.tooling.exam.version>
-        <netty.version>3.5.8.Final</netty.version>
+        <netty.version>3.6.2.Final</netty.version>
         <osgi.version>4.3.0</osgi.version>
         <paxexam.version>2.6.0</paxexam.version>
         <paxswissbox.version>1.6.0</paxswissbox.version>
@@ -64,11 +64,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.typesafe.akka</groupId>
-                <artifactId>akka-actor_${scala.dep.version}</artifactId>
-                <version>${akka.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.typesafe.akka</groupId>
                 <artifactId>akka-osgi_${scala.dep.version}</artifactId>
@@ -152,6 +147,10 @@
             <id>oss-sonatype-releases</id>
             <url>https://oss.sonatype.org/content/repositories/releases</url>
         </repository>
+        <repository>
+            <id>typesafe-snapshots</id>
+            <url>http://repo.typesafe.com/typesafe/snapshots/</url>
+        </repository>
     </repositories>
 
     <build>
@@ -175,12 +174,15 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.1.2</version>
                 <executions>
                     <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
                         <goals>
+                            <goal>add-source</goal>
                             <goal>compile</goal>
                         </goals>
                     </execution>
@@ -192,6 +194,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <args>
+                        <arg>-deprecation</arg>
+                        <arg>-feature</arg>
+                        <arg>-encoding</arg>
+                        <arg>UTF-8</arg>
+                        <!--<arg>-uniqid</arg>-->
+                    </args>
+                    <!--<useZincServer>true</useZincServer>-->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
