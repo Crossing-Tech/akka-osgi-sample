@@ -13,10 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
    limitations under the License.
  */
-package akka.osgi.sample.api
+package akka.osgi.sample.service
 
-import akka.actor.ActorRef
+import akka.osgi.sample.api.DiningHakkersService
+import akka.actor.{Props, ActorSystem}
+import akka.osgi.sample.internal.Hakker
 
-trait DinningHakkersService {
-  def getHacker(name: String, chairNumber: Int): ActorRef
+class DiningHakkersServiceImpl(system: ActorSystem) extends DiningHakkersService {
+  def getHakker(name: String, chairNumber: Int) = {
+    system.actorOf(Props(new Hakker(name, chairNumber)))
+  }
 }

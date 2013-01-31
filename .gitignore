@@ -1,0 +1,5 @@
+*.iws
+*.iml
+.idea/
+apache-karaf-2.3.0/
+target/
