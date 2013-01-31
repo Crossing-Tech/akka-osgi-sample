@@ -28,7 +28,7 @@ class Activator extends ActorSystemActivator {
 
   import Activator._
 
-  var services: ListBuffer[ServiceRegistration[_]] = ListBuffer()
+  val services: ListBuffer[ServiceRegistration[_]] = ListBuffer()
 
   def configure(context: BundleContext, system: ActorSystem) {
     val log = Logging(system, this)
