@@ -18,15 +18,14 @@ Two modules that provision the project into the Karaf OSGi container for experim
 
 ## How to use it
 
-### Setup with sbt  --  TODO update this for latest Karaf provisioning changes and other Maven build changes
+### Setup with sbt
 just run:
 ```bash
 sbt clean
 sbt package
 sbt osgi-bundle
-sbt osgi-prepare
 ```
-
+sbt will creates the bundles in each subproject (api, command, core)/target/scala-2.10 directories. To have integration tests and OSGi environment loaded, please use the Maven build (at least for the moment)
 ### Setup with Maven
 ```bash
 mvn clean install
@@ -48,6 +47,3 @@ Then try to restart some bundles, to test the stability of the bundles:
 ``exit`` or CTRL-D to exit the Karaf console
 
 Depending on the akka version you're using, you may need to modify the core bundle when deploying on a second machine, to set it's akka.remote.netty.hostname in the application.conf.
-
-# TODO: The VM ips below are specific to one environment, make this more general
-The configuration is set to start the fist node on localhost, and to start other nodes on vm running on the same machine for tests (localhost and first vm ip would be 192.168.229.128, but it may differ according to your configuration.
