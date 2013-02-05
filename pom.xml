@@ -125,13 +125,6 @@
                 <version>4.9</version>
                 <scope>test</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.apache.karaf</groupId>
-                <artifactId>apache-karaf</artifactId>
-                <version>${karaf.version}</version>
-                <type>tar.gz</type>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -140,6 +133,20 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-compiler</artifactId>
             <version>${scala.version}</version>
+        </dependency>
+
+        <!-- Depend on both the tar.gz and the zip, Pax Exam then does not have to download them separately -->
+        <dependency>
+            <groupId>org.apache.karaf</groupId>
+            <artifactId>apache-karaf</artifactId>
+            <version>${karaf.version}</version>
+            <type>tar.gz</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf</groupId>
+            <artifactId>apache-karaf</artifactId>
+            <version>${karaf.version}</version>
+            <type>zip</type>
         </dependency>
     </dependencies>
     <repositories>
