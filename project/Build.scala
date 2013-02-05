@@ -102,16 +102,16 @@ object OsgiSampleBuild extends Build {
 }
 
 object Dependencies {
-  val akka_actor = "com.typesafe.akka" % "akka-actor_2.10" % "2.2-SNAPSHOT"
-  val akka_osgi = "com.typesafe.akka" % "akka-osgi_2.10" % "2.2-SNAPSHOT"  exclude("org.osgi.core", "org.osgi.compendium")
-  val akka_remote = "com.typesafe.akka" % "akka-remote_2.10" % "2.2-SNAPSHOT"
-  val akka_cluster = "com.typesafe.akka" % "akka-cluster-experimental_2.10" % "2.2-SNAPSHOT"
+  val akka_actor = "com.typesafe.akka" % "akka-actor_2.10" % "2.2-SNAPSHOT"              changing()
+  val akka_osgi = "com.typesafe.akka" % "akka-osgi_2.10" % "2.2-SNAPSHOT"  exclude("org.osgi.core", "org.osgi.compendium") changing()
+  val akka_remote = "com.typesafe.akka" % "akka-remote_2.10" % "2.2-SNAPSHOT"              changing()
+  val akka_cluster = "com.typesafe.akka" % "akka-cluster-experimental_2.10" % "2.2-SNAPSHOT" changing()
   val config = "com.typesafe" % "config" % "1.0.0"
 
   val osgiCore = "org.osgi" % "org.osgi.core" % "4.3.0"
   val osgiCompendium = "org.osgi" % "org.osgi.compendium" % "4.3.0"
   val core = Seq(akka_actor, akka_osgi, akka_remote, akka_cluster, config, osgiCore, osgiCompendium)
-  val command = Seq(osgiCore, osgiCompendium)
+  val command = Seq(akka_actor, osgiCore, osgiCompendium)
 
 
   val uncommons_math = "org.uncommons.maths" % "uncommons-maths" % "1.2.2"
